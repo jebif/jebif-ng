@@ -23,14 +23,18 @@ les utilisateurs existants qui sont dans la table bioinfuse et qui sont actifs.
 ## Utilisateurs
 
 * [x] Page de modification de profil pour l'utilisateur (champ role non utilisé)
-* [x] Page de gestion des membres pour les administrateurs définis dans la table
-bioinfuse
-* [x] Page de modification de role pour un utilisateur pour les administrateurs
-définis dans la table bioinfuse
-* [ ] Page de soumission de vidéo pour l'utilisateur Concurrent
+* [x] Page de soumission de vidéo pour l'utilisateur Concurrent
 * [ ] Page des vidéos soumises pour l'utilisateur Jury
 * [ ] Page d'évalution d'une vidéo pour l'utilisateur Jury
 
 ## Soumission d'une vidéo
 
-* [ ] Basée sur l'API de DailyMotion en précisant le compte de JeBiF
+* [x] Basée sur l'API de DailyMotion en précisant le compte de JeBiF
+
+## Utilisateurs administrateurs
+
+* [x] Page de gestion des membres
+* [x] Page de modification de role pour un utilisateur
+* [ ] Page de gestion des vidéos ?
+* [ ] Page de suppression de vidéo ?
+* [ ] Page de mise à jour de vidéo ?

@@ -211,14 +211,6 @@ def edit_member(request, member):
 
 
 def submit_movie(request, member):
-    def handle_file(f, name, ext):
-        name = "media/" + name.replace(" ", "")
-        name += "." + ext
-        with open(name, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-        return name
-
     def upload_movie(movie_id, file_name):
         d = dailymotion.Dailymotion()
         d.set_grant_type('password', api_key=API_KEY,
@@ -231,12 +223,8 @@ def submit_movie(request, member):
                         'published': 'true', 'channel': 'tech',
                         'private': 'true',
                         'description': q_movie.description})
-        list = d.get('/videos', {'fields': 'user,id,title, url,', 'owner': owner, 'private': 1})['list']
-        for l in list:
-            if l['id'] == movie['id']:
-                url = d.get('/video/' + l['id'], {'fields': 'title,description,url'})['url']
-                q_movie.movie_url = url
-                q_movie.save()
+        q_movie.movie_url = 'http://www.dailymotion.com/video/' + str(movie['id'])
+        q_movie.save()
     
     context = base(request)
     role = Member.objects.get(user=member).role
@@ -251,9 +239,8 @@ def submit_movie(request, member):
             title = submit_movie_form.cleaned_data['title']
             description = submit_movie_form.cleaned_data['description']
             file_movie = request.FILES['file_movie']
-            sub_date = now() # don't remove it, necessary in line 248!
-            ext = str(file_movie).split('.')[-1].lower()
-            name = handle_file(file_movie, title, ext)
+            sub_date = now() # don't remove it, necessary in line 251!
+            name = file_movie.temporary_file_path()
             print(name)
             associated_key = AssociatedKey.objects.get(
                 associated_key=member.associated_key)

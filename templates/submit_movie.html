@@ -17,11 +17,14 @@ Soumetre une vidéo
     <form action="{% url 'bioinfuse:submit_movie'  user.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
         <fieldset>
             {{ submit_movie_form.as_p }}
+            <p>Votre vidéo ne doit pas peser plus de 450Mo.</p>
             <input type="submit" value="Soumettre la vidéo">
         </fieldset>
     </form>
-    <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
-    redirigé à la page d'accueil.</p>
+    <p class="info">Une fois que vous aurez validé le formulaire, votre vidéo sera directement envoyée sur
+        notre page Dailymotion. Une fois fait, vous serez automatiquement redirigé à la page d'accueil.<br>
+    Par mesure de sécurité, merci d'attendre la fin de la soumission avant de changer de page ou de quitter
+    notre application.</p>
         {% else %}
         <p>
             Vous n'êtes pas autorisé à soumettre une vidéo. <a href="{% url 'index' %}">Retour à la page d'accueil</a>.
