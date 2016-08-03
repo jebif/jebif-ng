@@ -24,7 +24,7 @@ les utilisateurs existants qui sont dans la table bioinfuse et qui sont actifs.
 
 * [x] Page de modification de profil pour l'utilisateur (champ role non utilisé)
 * [x] Page de soumission de vidéo pour l'utilisateur Concurrent
-* [ ] Page des vidéos soumises pour l'utilisateur Jury
+* [x] Page des vidéos soumises pour l'utilisateur Jury
 * [ ] Page d'évalution d'une vidéo pour l'utilisateur Jury
 
 ## Soumission d'une vidéo
