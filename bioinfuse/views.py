@@ -298,7 +298,7 @@ def list_movies(request):
         role = 'I'
     for i in range(0, len(movies)):
         if Vote.objects.filter(id_movie=movies[i].id):
-            evaluation = Vote.objects.get(id_movie=movies[i].id)
+            evaluation = Vote.objects.get(id_movie=movies[i].id, user=request.user.id)
             movies[i].note = int(evaluation.global_note)
             movies[i].note += int(evaluation.artistic_note)
             movies[i].note += int(evaluation.originality_note)
