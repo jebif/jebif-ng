@@ -11,21 +11,25 @@
 * [x] Page de connection
 * [x] Page de deconnection
 * [x] Ajouter automatiquement une nouvelle clé d'association pour l'utilisateur à la création du compte
+  * [ ] Générer une clé d'association uniquement pour les candidats d'un concours ?
 * [x] Associer la clé au concours
 
 ## Clé d'association
 
 La clé d'association ne peut pas être créée si aucun concours n'est ouvert.
 
-À l'ouverture d'un nouveau concours, regénérer des clés d'association pour
+* [ ] À l'ouverture d'un nouveau concours, regénérer des clés d'association pour
 les utilisateurs existants qui sont dans la table bioinfuse et qui sont actifs.
+* [ ]
 
 ## Utilisateurs
 
 * [x] Page de modification de profil pour l'utilisateur (champ role non utilisé)
 * [x] Page de soumission de vidéo pour l'utilisateur Concurrent
-* [ ] Page des vidéos soumises pour l'utilisateur Jury
-* [ ] Page d'évalution d'une vidéo pour l'utilisateur Jury
+* [x] Page des vidéos soumises pour l'utilisateur Jury
+  * [ ] Fixer le bug d'affichage de la vidéo : s'affiche en local mais pas en ligne
+  * [ ] Afficher la note moyenne attribuée à la vidéo par le membre du jury ou par l'ensemble des jury ?
+* [x] Page d'évalution d'une vidéo pour l'utilisateur Jury
 
 ## Soumission d'une vidéo
 
@@ -38,3 +42,10 @@ les utilisateurs existants qui sont dans la table bioinfuse et qui sont actifs.
 * [ ] Page de gestion des vidéos ?
 * [ ] Page de suppression de vidéo ?
 * [ ] Page de mise à jour de vidéo ?
+
+## Gestion du site
+
+* [x] Création de pages en utilisant le markdown
+* [ ] Création d'article en utilisant le markdown
+* [ ] Création d'une page pour les vainqueurs des différents concours
+* [ ] Afficher un slider qui affiche les concours à venir et en cours

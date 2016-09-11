@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
+"""
+File to test how to upload a movie into Dailymotion, not used by BioInfuse app
+"""
 import os
 import sys
 sys.path.append(os.path.abspath('..'))

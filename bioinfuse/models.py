@@ -22,7 +22,7 @@ notes = (
         ('10', '10')
 )
 
-
+# extends table User for table Member
 class Member(models.Model):
     user = models.OneToOneField(User, blank=True, null=True)
     show_name = models.CharField("Nom affiché", max_length=50, null=True)
@@ -37,7 +37,7 @@ class Member(models.Model):
     def __unicode__(self):
         return self.user.username
 
-
+# table challenge
 class Challenge(models.Model):
     title = models.CharField("Titre", max_length=100)
     is_open = models.BooleanField("Ouvert", default=False)
@@ -51,7 +51,7 @@ class Challenge(models.Model):
     def __unicode__(self):
         return self.title
 
-
+# table AssociatedKey, will create key associated to a BioInfuse member
 class AssociatedKey(models.Model):
     candidate = models.ForeignKey(Member)
     challenge = models.ForeignKey(Challenge)
@@ -60,7 +60,7 @@ class AssociatedKey(models.Model):
     def __unicode__(self):
         return self.associated_key
 
-
+# table Movie
 class Movie(models.Model):
     challenge = models.ForeignKey(Challenge)
     associated_key = models.OneToOneField(AssociatedKey, unique=True)
@@ -82,7 +82,7 @@ class Movie(models.Model):
     def __unicode__(self):
         return self.title
 
-
+# table Article
 class Article(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User)
@@ -97,7 +97,7 @@ class Article(models.Model):
     def content_markdown(self):
         return mark_safe(markdown.markdown(self.content))
 
-
+# table Page
 class Page(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User)

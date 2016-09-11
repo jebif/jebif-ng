@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Define BioInfuse urls to HTML pages for views
 from django.conf.urls import url
 from bioinfuse import views
 from django.conf import settings

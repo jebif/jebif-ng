@@ -10,6 +10,7 @@ import dailymotion
 from parameters import *
 import re
 
+# Create common variables to use in HTML views
 def base(request):
     total_member = Member.objects.count()
     total_challenger = Member.objects.filter(role='C').count()
@@ -50,15 +51,16 @@ def base(request):
 
 
 # Fix login redirection problem
+# Find a better way?
 def home(request):
     return HttpResponseRedirect(reverse('bioinfuse:index'))
 
-
+# generate home.html
 def index(request):
     context = base(request)
     return render(request, "home.html", context)
 
-
+# generate subscribtion page and subscription in table
 def subscribe(request):
     registered = False
     context = base(request)
@@ -102,7 +104,8 @@ def subscribe(request):
 
     return render(request, "subscribe.html", context)
 
-
+# At the beginning I tried to create personnalized login HTML page but I was not
+# able to understand how it works in Django. Fix it? ~ Nolwenn
 def login(request):
     context = base(request)
     if request.method == 'GET':
@@ -127,7 +130,8 @@ def login(request):
 
     return render(request, "registration/login.html", context)
 
-
+# HTML page to allow the member to edit its profile in BioInfuse app
+# Add option to delete the account, to be in accordance with CNIL?
 def edit_profile(request, member):
     context = base(request)
     get_member = Member.objects.get(user=member)
@@ -159,7 +163,7 @@ def edit_profile(request, member):
     context['member_form'] = member_form
     return render(request, "edit_profile.html", context)
 
-
+# list all members subscribed in BioInfuse app
 def list_members(request):
     context = base(request)
     members = Member.objects.all()
@@ -171,7 +175,8 @@ def list_members(request):
     context['role'] = role
     return render(request, "manage_members.html", context)
 
-
+# HTML page to edit member when logged as Administrator
+# Usefull to change user role and possibly help user when stuck
 def edit_member(request, member):
     context = base(request)
     get_member = Member.objects.get(user=member)
@@ -212,7 +217,8 @@ def edit_member(request, member):
     context['member_form'] = member_form
     return render(request, "edit_member.html", context)
 
-
+# HTML page to submit a movie
+# Add a visual like a file uploading image?
 def submit_movie(request, member):
     def upload_movie(movie_id, file_name):
         d = dailymotion.Dailymotion()
@@ -233,7 +239,7 @@ def submit_movie(request, member):
         """
         q_movie.movie_url = 'http://www.dailymotion.com/video/' + str(movie['id'])
         q_movie.save()
-    
+
     context = base(request)
     role = Member.objects.get(user=member).role
     member = Member.objects.get(user=member)
@@ -248,7 +254,7 @@ def submit_movie(request, member):
             title = submit_movie_form.cleaned_data['title']
             description = submit_movie_form.cleaned_data['description']
             file_movie = request.FILES['file_movie']
-            sub_date = now() # don't remove it, necessary in line 251!
+            sub_date = now() # don't remove it, necessary in submit_date fields!
             name = file_movie.temporary_file_path()
             print(name)
             associated_key = AssociatedKey.objects.get(
@@ -270,7 +276,7 @@ def submit_movie(request, member):
     context['is_submit'] = is_submit
     return render(request, "submit_movie.html", context)
 
-
+# HTML page to show, pages are created in Django admin
 def show_page(request, page):
     context = base(request)
     try:
@@ -281,7 +287,7 @@ def show_page(request, page):
 
     return render(request, "show_page.html", context)
 
-
+# HTML page to list all movies submitted in BioInfuse app
 def list_movies(request):
     context = base(request)
     movies = Movie.objects.all()
@@ -309,7 +315,7 @@ def list_movies(request):
     context['role'] = role
     return render(request, "manage_notes.html", context)
 
-
+# HTML page for Jury when a movie need to be evaluated
 def add_notes(request, movie_id):
     context = base(request)
     context['movie_id'] = movie_id
