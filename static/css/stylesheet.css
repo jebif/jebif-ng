@@ -23,7 +23,7 @@ Main menu style
 nav#mainmenu {
     background: #68A7DC;
     color: #0B071E;
-    line-height: 1.3em;
+    height: 1.4em;
     font-size: 1.2em;
 }
 nav#mainmenu a {
@@ -34,12 +34,26 @@ nav#mainmenu a:hover {
     color: #1F4683;
 }
 nav#mainmenu ul {
-    list-style: none;
-    width: 80%;
     margin: 0 auto;
+    padding: 1px 2px;
+    list-style: outside none none;
+    width: 80%;
+    font-size: 1.0em;
+    line-height: 1.3em;
+}
+
+nav#mainmenu ul li {
+    padding-right: 4px;
+    float: left;
+}
+
+nav#mainmenu ul li.page {
+    border-left: 1px solid #0B071E;
+    padding-left: 4px;
 }
 
 div#container {
+    clear: both;
     width: 80%;
     margin: 0 auto;
 }
@@ -124,6 +138,39 @@ section#manage table td {
     padding: 2px 4px;
 }
 
+/****************
+Page style
+****************/
+section#page article {
+    background: #ddd;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding: 0;
+}
+section#page article header h1 {
+    margin: 0 auto;
+}
+section#page article p {
+    padding: 2px 4px;
+}
+section#page article table {
+    margin-bottom: 1em;
+}
+section#page table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+section#page table thead {
+    background: #254061;
+    color: white;
+    font-weight: bold;
+}
+section#page table td {
+    border: 1px solid #254061;
+    padding: 2px 4px;
+}
+
 /*********
 Form style
 *********/
@@ -131,6 +178,9 @@ section#form article {
     background: #ddd;
     margin-bottom: 1em;
     border-radius: 10px;
+}
+section#form article header h1 {
+    margin: 0 auto;
 }
 section#form article p {
     padding: 2px 4px;

@@ -5,3 +5,7 @@ django
 
 # Disable sqlite3 database (use only for local tests)
 db.sqlite3
+
+# Disable parameters defined in *.py.dist (critical)
+bioinfuse/parameters.py
+jebif/settings.py

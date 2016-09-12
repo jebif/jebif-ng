@@ -12,7 +12,7 @@
             <ul>
                 <li><a href="{% url 'bioinfuse:index' %}" title="Revenir à l'accueil">Accueil</a></li>
                 {% for p in pages %}
-                	<li><a href="/a/p/{{p.id}}" title="Lire la page {{p.title}}">{{ p.title }}</a></li>
+                	<li class="page"><a href="{% url 'bioinfuse:page' p.id %}" title="Lire la page {{p.title}}">{{ p.title }}</a></li>
                 {% endfor %}
             </ul>
         </nav>
@@ -31,7 +31,7 @@
                             <li><a href="{% url 'bioinfuse:submit_movie' user.id %}">Soumettre une vidéo</a></li>
                             {% endif %}
                         {% elif member.role == 'J'  %}
-                            <li>Voir les vidéos soumises</li>
+                            <li><a href="{% url 'bioinfuse:manage_notes' %}">Voir les vidéos soumises</a></li>
                         {% elif member.role == 'A' %}
                             <li><a href="{% url 'bioinfuse:manage_members' %}">Gérer les membres</a></li>
                         {% else %}
@@ -44,14 +44,14 @@
                 {% else %}
                 <div id="connection">
                   <h2>Bienvenue sur BioInfuse</h2>
-		  {% if challenge %}
+            {% if challenge %}
                     <ul>
                         <li><a href="{% url 'login' %}">Se connecter</a></li>
                         <li><a href="{% url 'bioinfuse:subscribe' %}">S'inscrire</a></li>
                     </ul>
-		    {% else %}
-		  <p>Aucun concours ouvert pour l'instant.</p>
-		  {% endif %}
+            {% else %}
+        <p>Aucun concours ouvert pour l'instant.</p>
+        {% endif %}
                 </div>
                 {% endif %}
                 <div id="statistics">

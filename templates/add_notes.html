@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Évaluation d'une vidéo
+
+{% endblock %}
+
+{% block content %}
+
+<section id="manage">
+    <article>
+	{% if user.is_authenticated and role == 'J' %}
+    <header>
+        <h1>Évaluation de la vidéo {{ movie }}</h1>
+    </header>
+    <p>
+        <h2>Vidéo :</h2>
+        <iframe frameborder="0" width="480" height="270"
+                src="{{ movie_url }}" allowfullscreen></iframe>
+        <p><a href="{{ movie_url }}" target="_blank">Vous pouvez voir cette vidéo directement sur Dailymotion en cliquant sur ce lien.</a></p>
+        <h2>Description :</h2>
+        <p>{{ movie_desc }}</p>
+    </p>
+    <form action="{% url 'bioinfuse:add_notes' movie_id %}" method="post">{% csrf_token %}
+    <fieldset>
+        <legend>Notes :</legend>
+        {{ notes_form.as_p }}
+    </fieldset>
+    <fieldset>
+        <legend>Commentaire :</legend>
+        {{ comment_form.as_p }}
+    </fieldset>
+    <fieldset>
+        <legend>Soumettre l'évaluation</legend>
+        <input type="reset" value="Effacer">&nbsp;
+        <input type="submit" value="Voter">
+    </fieldset>
+    </form>
+    {% else %}
+        <p>
+            Vous n'êtes pas autorisé à évaluer les vidéos. <a href="{% url 'bioinfuse:index' %}">Retour à la page d'accueil</a>.
+        </p>
+	{% endif %}
+	</article>
+</section>
+
+{% endblock %}
