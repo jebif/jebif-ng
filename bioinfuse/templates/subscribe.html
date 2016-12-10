@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Inscription de nouveau membre
+
+{% endblock %}
+
+{% block content %}
+
+<section id="form">
+  <article>
+    {% if challenge %}
+	{% if registered %}
+	<header>
+		<h1>Inscription réussie !</h1>
+	</header>
+	<p>Merci de vous être enregistré pour notre concours {{ show_name }} !<br>
+	<a href="{% url 'login' %}">Se connecter</a> ou <a href="{% url 'bioinfuse:index' %}">revenir à la page d'accueil</a> ?</p>
+	{% else %}
+    <header>
+        <h1>Création de compte</h1>
+    </header>
+    <form action="{% url 'bioinfuse:subscribe' %}" method="post">{% csrf_token %}
+		<fieldset>
+			{{ user_form.as_p }}
+			{{ subs_form.as_p }}
+			<input type="reset" value="Effacer">&nbsp;
+			<input type="submit" value="S'inscrire">
+		</fieldset>
+    </form>
+    <p class="info">
+      Par défaut, vous serez inscrit pour le défi se finissant le
+      plus tard, mais il vous est également possible de choisir le concours de
+      votre choix.
+    </p>
+    {% endif %}
+    {% else %}
+    <p>Aucun concours ouvert pour l'instant.</p>
+    {% endif %}
+	</article>
+</section>
+
+{% endblock %}

@@ -2,6 +2,18 @@ body {
     margin: 0 auto;
     background: #c5c5c5;
 }
+p.info {
+  background: lightblue;
+  color: blue;
+  border: 1px solid blue;
+  margin: 1em;
+}
+p.error {
+  background: pink;
+  color: red;
+  border: 1px solid red;
+  margin: 1em;
+}
 
 /****************
 Main header style

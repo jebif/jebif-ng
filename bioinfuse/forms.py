@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class NewUserForm(forms.ModelForm):
     password = forms.CharField(label="Mot de passe",
                                widget=forms.PasswordInput())
-    
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name',
@@ -19,6 +19,11 @@ class SubscriptionForm(forms.ModelForm):
         model = Member
         fields = ('show_name',)
 
+class SubscriptionChallengeForm(forms.ModelForm):
+    # choices = forms.ChoiceField(label="Challenge",)
+    class Meta:
+        model = Challenge
+        fields = ('id', 'title')
 
 class LoginUserForm(forms.ModelForm):
     password = forms.CharField(label="Mot de passe",

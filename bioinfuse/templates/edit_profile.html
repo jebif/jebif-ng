@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Modification du profil de {{ user.username }}
+
+{% endblock %}
+
+{% block content %}
+
+<section id="form">
+    <article>
+	{% if user.id == profile_id and user.is_authenticated %}
+    <header>
+        <h1>Modification du profil de {{ member.user }}</h1>
+    </header>
+    <form action="{% url 'bioinfuse:edit_profile' profile_id %}" method="post">{% csrf_token %}
+        <fieldset>
+            {{ user_form.as_p }}
+            {{ member_form.as_p }}
+            <input type="submit" value="Mettre à jour">
+        </fieldset>
+    </form>
+    <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
+    redirigé à la page d'accueil.</p>
+	{% endif %}
+	</article>
+</section>
+
+{% endblock %}

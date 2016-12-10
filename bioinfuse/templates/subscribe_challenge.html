@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+S'inscire à un nouveau défi
+
+{% endblock %}
+
+{% block content %}
+
+<section id="form">
+    <article>
+    <header>
+        <h1>S'inscrire à un nouveau défi</h1>
+    </header>
+    <form action="{% url 'bioinfuse:index' %}" method="post">{% csrf_token %}
+        <fieldset>
+            {% for choice in challenge_form %}
+              <p>
+                <input type="checkbox" value="{{ choice.id }}" id="{{ choice.id }}">
+                &nbsp;<label for="{{ choice.id }}">{{choice.title}}</label>
+              </p>
+            {% endfor %}
+            <input type="submit" value="S'inscrire">
+        </fieldset>
+    </form>
+    <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
+    redirigé à la page d'accueil.</p>
+	</article>
+</section>
+
+{% endblock %}

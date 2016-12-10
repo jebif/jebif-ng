@@ -7,7 +7,7 @@ from bioinfuse.models import *
 from bioinfuse.forms import *
 import datetime
 import dailymotion
-from parameters import *
+from bioinfuse.parameters import *
 import re
 
 # Create common variables to use in HTML views
@@ -104,8 +104,7 @@ def subscribe(request):
 
     return render(request, "subscribe.html", context)
 
-# At the beginning I tried to create personnalized login HTML page but I was not
-# able to understand how it works in Django. Fix it? ~ Nolwenn
+# HTML page to login
 def login(request):
     context = base(request)
     if request.method == 'GET':
@@ -162,6 +161,19 @@ def edit_profile(request, member):
     context['user_form'] = user_form
     context['member_form'] = member_form
     return render(request, "edit_profile.html", context)
+
+# HTML page to subscribe the connected member to a new challenge
+def subscribe_challenge(request, member):
+    context = base(request)
+    challenges = Challenge.objects.filter(is_open=True)
+    if request.method == 'GET' and len(challenges) > 0:
+        challenge_form = []
+        for challenge in challenges:
+            challenge_form.append({"id": challenge.id, "title":challenge.title})
+    else:
+        challenge_form = SubscriptionChallengeForm(request.POST)
+    context['challenge_form'] = challenge_form
+    return render(request, "subscribe_challenge.html", context)
 
 # list all members subscribed in BioInfuse app
 def list_members(request):

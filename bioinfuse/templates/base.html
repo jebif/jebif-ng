@@ -1,0 +1,78 @@
+<!doctype HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Bioinfuse :: {% block title %}{% endblock %}</title>
+        {% load staticfiles %}
+        <link type="text/css" href="{% static "css/stylesheet.css" %}" rel="stylesheet" />
+    </head>
+    <body>
+        <header id="mainheader"><a href="{% url 'bioinfuse:index' %}"><img src="/a/static/img/BioInfuse.png" height="300px"></a></header>
+        <nav id="mainmenu">
+            <ul>
+                <li><a href="{% url 'bioinfuse:index' %}" title="Revenir à l'accueil">Accueil</a></li>
+                {% for p in pages %}
+                	<li class="page"><a href="{% url 'bioinfuse:page' p.id %}" title="Lire la page {{p.title}}">{{ p.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <div id="container">
+            <section id="main">
+                {% block content %}{% endblock %}
+            </section>
+            <aside>
+                {% if user.is_authenticated %}
+                <div id="options">
+                    <h2>Options utilisateur</h2>
+                    <ul>
+                        <li><a href="{% url 'bioinfuse:edit_profile' user.id %}">Modifier mon profil</a></li>
+                        {% if member.role == 'C' %}
+                          <li><a href="{% url 'bioinfuse:subscribe_challenge' user.id %}">S'inscire à un défi</a></li>
+                          {% if submit_ok %}
+                            <li><a href="{% url 'bioinfuse:submit_movie' user.id %}">Soumettre une vidéo</a></li>
+                          {% endif %}
+                        {% elif member.role == 'J'  %}
+                            <li><a href="{% url 'bioinfuse:manage_notes' %}">Voir les vidéos soumises</a></li>
+                        {% elif member.role == 'A' %}
+                            <li><a href="{% url 'bioinfuse:manage_members' %}">Gérer les membres</a></li>
+                        {% else %}
+                            <li>Oups ! Il semble que vous n'ayez pas de rôle attribué.
+                                Prévenez un administrateur afin qu'il vous assigne un rôle !</li>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <div id="connection">
+                  <h2>Bienvenue sur BioInfuse</h2>
+            {% if challenge %}
+                    <ul>
+                        <li><a href="{% url 'login' %}">Se connecter</a></li>
+                        <li><a href="{% url 'bioinfuse:subscribe' %}">S'inscrire</a></li>
+                    </ul>
+            {% else %}
+        <p>Aucun concours ouvert pour l'instant.</p>
+        {% endif %}
+                </div>
+                {% endif %}
+                <div id="statistics">
+                    <h2>BioInfuse en chiffres</h2>
+                    <p>
+                        Nombre d'inscrits : <strong>{{ total_member }}</strong><br>
+                        Concurrents : <strong>{{ total_challenger }}</strong><br>
+                        Jury : <strong>{{ total_jury }}</strong><br>
+                        Admin : <strong>{{ total_admin }}</strong><br>
+                        Nombre de vidéos soumises : <strong>{{ total_movie }}</strong>
+                    </p>
+                </div>
+            </aside>
+        </div>
+        <footer id="mainfooter">
+            <p>BioInfuse est un concours de vidéo de vulgarisation scientifique organisé par l'association
+                <a href="https://jebif.fr">JeBiF</a><br />
+            Fièrement propulsé par <a href="https://www.djangoproject.com/">Django {{ version }}</a>,
+                source disponible sur <a href="https://github.com/Norore/jebif/tree/master/bioinfuse">GitHub</a><br />
+            Sauf mention contraire, le contenu du site est sous licence Creative Commons 2.0 by NC</p>
+        </footer>
+    </body>
+</html>
