@@ -13,7 +13,7 @@ Connection
         <header>
             <h1>Connection</h1>
         </header>
-        <form action="{% url 'django.contrib.auth.views.login' %}" method="post">{% csrf_token %}
+        <form action="{% url 'login' %}" method="post">{% csrf_token %}
             <fieldset>
                 {{ form.username.label_tag }}
                 {{ form.username }}<br>
