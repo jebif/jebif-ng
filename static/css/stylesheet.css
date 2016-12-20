@@ -225,6 +225,11 @@ section#form input[type='reset'] {
     font-size: 1.1em;
 }
 
+section#form ul#id_list_challenge {
+  list-style: None;
+  padding: 0;
+}
+
 /*************
 Links style
 **********/

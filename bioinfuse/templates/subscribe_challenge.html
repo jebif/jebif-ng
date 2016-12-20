@@ -13,14 +13,9 @@ S'inscire à un nouveau défi
     <header>
         <h1>S'inscrire à un nouveau défi</h1>
     </header>
-    <form action="{% url 'bioinfuse:index' %}" method="post">{% csrf_token %}
+    <form action="{% url 'bioinfuse:subscribe_challenge' member.id %}" method="post">{% csrf_token %}
         <fieldset>
-            {% for choice in challenge_form %}
-              <p>
-                <input type="checkbox" value="{{ choice.id }}" id="{{ choice.id }}">
-                &nbsp;<label for="{{ choice.id }}">{{choice.title}}</label>
-              </p>
-            {% endfor %}
+          {{ challenge_form }}
             <input type="submit" value="S'inscrire">
         </fieldset>
     </form>

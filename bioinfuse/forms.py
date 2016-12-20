@@ -76,3 +76,10 @@ class VoteCommentForm(forms.ModelForm):
     class Meta:
         model = Vote
         fields = ('comment',)
+
+class SubscribeChallengeForm(forms.Form):
+    challenges = [(c.id, c.title) for c in Challenge.objects.filter(is_open=True)]
+
+    list_challenge = forms.MultipleChoiceField(choices=challenges, \
+                                            widget=forms.CheckboxSelectMultiple(),
+                                            label="Choisissez le(s) challenge(s)")

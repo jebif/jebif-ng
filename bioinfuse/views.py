@@ -167,11 +167,12 @@ def subscribe_challenge(request, member):
     context = base(request)
     challenges = Challenge.objects.filter(is_open=True)
     if request.method == 'GET' and len(challenges) > 0:
-        challenge_form = []
-        for challenge in challenges:
-            challenge_form.append({"id": challenge.id, "title":challenge.title})
+        challenge_form = SubscribeChallengeForm()
     else:
         challenge_form = SubscriptionChallengeForm(request.POST)
+        print("selected challenges:")
+        print(challenge_form)
+
     context['challenge_form'] = challenge_form
     return render(request, "subscribe_challenge.html", context)
 
