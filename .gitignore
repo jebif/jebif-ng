@@ -9,3 +9,11 @@ db.sqlite3
 # Disable parameters defined in *.py.dist (critical)
 bioinfuse/parameters.py
 jebif/settings.py
+
+# Disable temporary files from LaTeX compilation
+docs/en/*.aux
+docs/fr/*.aux
+docs/en/*.log
+docs/fr/*.log
+docs/en/*.synctex.gz
+docs/fr/*.synctex.gz
