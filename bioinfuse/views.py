@@ -165,15 +165,33 @@ def edit_profile(request, member):
 # HTML page to subscribe the connected member to a new challenge
 def subscribe_challenge(request, member):
     context = base(request)
+    member = Member.objects.get(user=member)
     challenges = Challenge.objects.filter(is_open=True)
     if request.method == 'GET' and len(challenges) > 0:
+        # context['challenges'] = challenges
         challenge_form = SubscribeChallengeForm()
-    else:
-        challenge_form = SubscriptionChallengeForm(request.POST)
-        print("selected challenges:")
         print(challenge_form)
+    else:
+        challenge_form = SubscribeChallengeForm(request.POST)
+        challenges = request.POST
+        list_challenge = challenges.getlist("list_challenge")
+        # from list_challenge, add user on each challenge
+        import random
+        for c in list_challenge:
+            challenge = Challenge.objects.get(id=c)
+            key = "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
+                                        "3456789!@#$%^&*(-_=+)")
+                            for i in range(50)])
+            member_key = AssociatedKey.objects.create(candidate=member,
+                                                        challenge=challenge,
+                                                        associated_key=key)
+            member_key.save()
+            #member = Member.objects.get(user=member.user)
+            member.associated_key = member_key.associated_key
+            member.save()
 
     context['challenge_form'] = challenge_form
+    context['role'] = member.role
     return render(request, "subscribe_challenge.html", context)
 
 # list all members subscribed in BioInfuse app
