@@ -27,9 +27,10 @@
                     <ul>
                         <li><a href="{% url 'bioinfuse:edit_profile' user.id %}">Modifier mon profil</a></li>
                         {% if member.role == 'C' %}
-                            {% if submit_ok %}
+                          <li><a href="{% url 'bioinfuse:subscribe_challenge' user.id %}">S'inscire à un défi</a></li>
+                          {% if submit_ok %}
                             <li><a href="{% url 'bioinfuse:submit_movie' user.id %}">Soumettre une vidéo</a></li>
-                            {% endif %}
+                          {% endif %}
                         {% elif member.role == 'J'  %}
                             <li><a href="{% url 'bioinfuse:manage_notes' %}">Voir les vidéos soumises</a></li>
                         {% elif member.role == 'A' %}

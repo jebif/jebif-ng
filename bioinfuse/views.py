@@ -7,8 +7,15 @@ from bioinfuse.models import *
 from bioinfuse.forms import *
 import datetime
 import dailymotion
-from parameters import *
+from bioinfuse.parameters import *
 import re
+
+# general function for generating random key
+# used in some pages
+def generate_key(length):
+    return "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
+                                "3456789!@#$%^&*(-_=+)")
+                    for i in range(length)])
 
 # Create common variables to use in HTML views
 def base(request):
@@ -85,9 +92,7 @@ def subscribe(request):
             member.save()
             # generate associated key for new member
             import random
-            key = "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
-                                         "3456789!@#$%^&*(-_=+)")
-                           for i in range(50)])
+            key = generate_key(50)
             member_key = AssociatedKey.objects.create(candidate=member,
                                                       challenge=challenge,
                                                       associated_key=key)
@@ -104,8 +109,7 @@ def subscribe(request):
 
     return render(request, "subscribe.html", context)
 
-# At the beginning I tried to create personnalized login HTML page but I was not
-# able to understand how it works in Django. Fix it? ~ Nolwenn
+# HTML page to login
 def login(request):
     context = base(request)
     if request.method == 'GET':
@@ -162,6 +166,41 @@ def edit_profile(request, member):
     context['user_form'] = user_form
     context['member_form'] = member_form
     return render(request, "edit_profile.html", context)
+
+# HTML page to subscribe the connected member to a new challenge
+def subscribe_challenge(request, member):
+    context = base(request)
+    member = Member.objects.get(user=member)
+    challenges = Challenge.objects.filter(is_open=True)
+    if request.method == 'GET' and len(challenges) > 0:
+        # context['challenges'] = challenges
+        challenge_form = SubscribeChallengeForm()
+        print(challenge_form)
+    else:
+        challenge_form = SubscribeChallengeForm(request.POST)
+        challenges = request.POST
+        list_challenge = challenges.getlist("list_challenge")
+        # from list_challenge, add user on each challenge
+        import random
+        for c in list_challenge:
+            challenge = Challenge.objects.get(id=c)
+            # only subscribe member if AssociatedKey not exists for the selected
+            # challenge
+            if len(AssociatedKey.objects.filter(candidate=member,
+                                             challenge=challenge)) == 0:
+                key = generate_key(50)
+                member_key = AssociatedKey.objects.create(candidate=member,
+                                                            challenge=challenge,
+                                                            associated_key=key)
+                member_key.save()
+                member.associated_key = member_key.associated_key
+                member.save()
+        # once form is submitted, redirect member to index
+        return HttpResponseRedirect(reverse('bioinfuse:index'))
+
+    context['challenge_form'] = challenge_form
+    context['role'] = member.role
+    return render(request, "subscribe_challenge.html", context)
 
 # list all members subscribed in BioInfuse app
 def list_members(request):
@@ -256,7 +295,6 @@ def submit_movie(request, member):
             file_movie = request.FILES['file_movie']
             sub_date = now() # don't remove it, necessary in submit_date fields!
             name = file_movie.temporary_file_path()
-            print(name)
             associated_key = AssociatedKey.objects.get(
                 associated_key=member.associated_key)
             register_movie = Movie.objects.create(challenge=challenge,

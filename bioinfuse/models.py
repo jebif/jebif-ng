@@ -34,7 +34,7 @@ class Member(models.Model):
     role = models.CharField("Rôle", max_length=1, choices=list_role, default='C')
     associated_key = models.CharField("Clé associée", max_length=50, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
 # table challenge
@@ -48,7 +48,7 @@ class Challenge(models.Model):
     subm_start_date = models.DateTimeField("Date de début de soumission", default=now)
     subm_stop_date = models.DateTimeField("Date de fin de soumission", default=now)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 # table AssociatedKey, will create key associated to a BioInfuse member
@@ -57,7 +57,7 @@ class AssociatedKey(models.Model):
     challenge = models.ForeignKey(Challenge)
     associated_key = models.CharField("Clé d'association", max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.associated_key
 
 # table Movie
@@ -79,7 +79,7 @@ class Movie(models.Model):
                                        default=now)
     published = models.BooleanField("Publié", default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 # table Article
@@ -91,7 +91,7 @@ class Article(models.Model):
     edit_date = models.DateTimeField(blank=True, null=True)
     published = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def content_markdown(self):
@@ -106,7 +106,7 @@ class Page(models.Model):
     creation_date = models.DateTimeField(default=now)
     edit_date = models.DateTimeField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def content_markdown(self):
@@ -129,7 +129,7 @@ class Vote(models.Model):
     rigorous_note = models.CharField("Rigueur scientifique", max_length=2, choices=notes, default='0')
     comment = models.TextField("Votre commentaire :")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.id_jury
 
     def comment_markdown(self):

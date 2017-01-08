@@ -2,6 +2,18 @@ body {
     margin: 0 auto;
     background: #c5c5c5;
 }
+p.info {
+  background: lightblue;
+  color: blue;
+  border: 1px solid blue;
+  margin: 1em;
+}
+p.error {
+  background: pink;
+  color: red;
+  border: 1px solid red;
+  margin: 1em;
+}
 
 /****************
 Main header style
@@ -211,6 +223,11 @@ section#form input[type='reset'] {
     border: 1px solid #F00;
     color: white;
     font-size: 1.1em;
+}
+
+section#form ul#id_list_challenge {
+  list-style: None;
+  padding: 0;
 }
 
 /*************

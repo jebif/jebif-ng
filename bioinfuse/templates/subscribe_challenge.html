@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+S'inscire à un nouveau défi
+
+{% endblock %}
+
+{% block content %}
+
+<section id="form">
+    <article>
+      {% if user.is_authenticated and role == 'C' %}
+    <header>
+        <h1>S'inscrire à un nouveau défi</h1>
+    </header>
+    <form action="{% url 'bioinfuse:subscribe_challenge' user.id %}" method="post">{% csrf_token %}
+        <fieldset>
+          {{ challenge_form }}
+            <input type="submit" value="S'inscrire">
+        </fieldset>
+    </form>
+    <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
+    redirigé à la page d'accueil.</p>
+    {% endif %}
+	</article>
+</section>
+
+{% endblock %}
