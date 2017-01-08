@@ -10,6 +10,13 @@ import dailymotion
 from bioinfuse.parameters import *
 import re
 
+# general function for generating random key
+# used in some pages
+def generate_key(length):
+    return "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
+                                "3456789!@#$%^&*(-_=+)")
+                    for i in range(length)])
+
 # Create common variables to use in HTML views
 def base(request):
     total_member = Member.objects.count()
@@ -85,9 +92,7 @@ def subscribe(request):
             member.save()
             # generate associated key for new member
             import random
-            key = "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
-                                         "3456789!@#$%^&*(-_=+)")
-                           for i in range(50)])
+            key = generate_key(50)
             member_key = AssociatedKey.objects.create(candidate=member,
                                                       challenge=challenge,
                                                       associated_key=key)
@@ -179,16 +184,19 @@ def subscribe_challenge(request, member):
         import random
         for c in list_challenge:
             challenge = Challenge.objects.get(id=c)
-            key = "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
-                                        "3456789!@#$%^&*(-_=+)")
-                            for i in range(50)])
-            member_key = AssociatedKey.objects.create(candidate=member,
-                                                        challenge=challenge,
-                                                        associated_key=key)
-            member_key.save()
-            #member = Member.objects.get(user=member.user)
-            member.associated_key = member_key.associated_key
-            member.save()
+            # only subscribe member if AssociatedKey not exists for the selected
+            # challenge
+            if len(AssociatedKey.objects.filter(candidate=member,
+                                             challenge=challenge)) == 0:
+                key = generate_key(50)
+                member_key = AssociatedKey.objects.create(candidate=member,
+                                                            challenge=challenge,
+                                                            associated_key=key)
+                member_key.save()
+                member.associated_key = member_key.associated_key
+                member.save()
+        # once form is submitted, redirect member to index
+        return HttpResponseRedirect(reverse('bioinfuse:index'))
 
     context['challenge_form'] = challenge_form
     context['role'] = member.role
@@ -287,7 +295,6 @@ def submit_movie(request, member):
             file_movie = request.FILES['file_movie']
             sub_date = now() # don't remove it, necessary in submit_date fields!
             name = file_movie.temporary_file_path()
-            print(name)
             associated_key = AssociatedKey.objects.get(
                 associated_key=member.associated_key)
             register_movie = Movie.objects.create(challenge=challenge,
