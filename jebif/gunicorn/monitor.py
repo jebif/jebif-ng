@@ -4,7 +4,7 @@ import time
 import signal
 import threading
 import atexit
-from Queue import Queue
+from queue import Queue
 
 _interval = 1.0
 _times = {}

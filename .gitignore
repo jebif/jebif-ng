@@ -17,3 +17,6 @@ docs/en/*.log
 docs/fr/*.log
 docs/en/*.synctex.gz
 docs/fr/*.synctex.gz
+
+# server logging
+jebif/gunicorn/logs
