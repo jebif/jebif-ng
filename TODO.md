@@ -19,17 +19,23 @@
 * [x] Page de connection
 * [x] Page de deconnection
 * [x] Ajouter automatiquement une nouvelle clé d'association pour l'utilisateur à la création du compte
-  * [ ] Générer une clé d'association uniquement pour les candidats d'un concours ?
+  * [x] Générer une clé d'association uniquement pour les candidats d'un concours ?
 * [x] Associer la clé au concours
+
+#### Amélioration (2017-01-29)
+
+* [ ] Nouvel inscrit et plusieurs concours ouverts : demander à l'Inscription à quel concours s'inscrire
+* [ ] Permettre à un utilisateur de User de s'inscrire dans BioInfuse/Member
+
 
 ### Clé d'association
 
 La clé d'association ne peut pas être créée si aucun concours n'est ouvert.
 
-* [ ] À l'ouverture d'un nouveau concours, regénérer des clés d'association pour
-les utilisateurs existants qui sont dans la table bioinfuse et qui sont actifs.
-  * [ ] Ne créer une nouvelle clé que sur la demande d'un concurrent ou pour tous les
+* [x] Ne créer une nouvelle clé que sur la demande d'un concurrent ou pour tous les
   utilisateurs ?
+
+La clé d'association est créé à l'inscription à un concours.
 
 ### Utilisateurs
 
@@ -40,9 +46,21 @@ les utilisateurs existants qui sont dans la table bioinfuse et qui sont actifs.
   * [ ] Afficher la note moyenne attribuée à la vidéo par le membre du jury ou par l'ensemble des jury ?
 * [x] Page d'évalution d'une vidéo pour l'utilisateur Jury
 
+#### Amélioration (2017-01-29)
+
+* [ ] Respect de la CNIL:
+  * [ ] Permettre à l'utilisateur de changer son mot de passe
+  * [ ] Permettre à l'utilisateur de supprimer son compte
+    * [ ] Ajouter une case pour le désinscrire de User aussi ? Ou fournir un lien pour les autres applis ?
+
 ### Soumission d'une vidéo
 
 * [x] Basée sur l'API de DailyMotion en précisant le compte de JeBiF
+
+#### Amélioration (2017-01-29)
+
+* [ ] Corriger le problème de lien signalé en commentaire multi-lignes
+  * [ ] Corriger également dans l'affichage des vidéos
 
 ### Utilisateurs administrateurs
 

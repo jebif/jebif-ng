@@ -10,15 +10,25 @@ import dailymotion
 from bioinfuse.parameters import *
 import re
 
-# general function for generating random key
-# used in some pages
 def generate_key(length):
+    """
+        Returns random key for BioInfuse member in challenge
+
+        length - length of the random key
+
+        Used in subscribe() and subscribe_challenge()
+    """
+    import random
     return "".join([random.choice("abcdefghijklmnopqrstuvwxyz012"
                                 "3456789!@#$%^&*(-_=+)")
                     for i in range(length)])
 
-# Create common variables to use in HTML views
 def base(request):
+    """
+        Define common variables to use in HTML views
+
+        request - html page requested *.html
+    """
     total_member = Member.objects.count()
     total_challenger = Member.objects.filter(role='C').count()
     total_jury = Member.objects.filter(role='J').count()
@@ -56,19 +66,29 @@ def base(request):
         context['submit_ok'] = False
     return context
 
-
-# Fix login redirection problem
-# Find a better way?
 def home(request):
+    """
+        Nothing yet on a/, redirection to a/bioinfuse
+
+        request - redirect from a/ to a/bioinfuse
+    """
     return HttpResponseRedirect(reverse('bioinfuse:index'))
 
-# generate home.html
 def index(request):
+    """
+        Show BioInfuse home page
+
+        request - html page requested home.html
+    """
     context = base(request)
     return render(request, "home.html", context)
 
-# generate subscribtion page and subscription in table
 def subscribe(request):
+    """
+        Subscription for new BioInfuse member
+
+        request - html page requested subscribe.html
+    """
     registered = False
     context = base(request)
     challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')[0]
@@ -91,7 +111,6 @@ def subscribe(request):
             member.user = user
             member.save()
             # generate associated key for new member
-            import random
             key = generate_key(50)
             member_key = AssociatedKey.objects.create(candidate=member,
                                                       challenge=challenge,
@@ -109,8 +128,13 @@ def subscribe(request):
 
     return render(request, "subscribe.html", context)
 
-# HTML page to login
+
 def login(request):
+    """
+        Login page
+
+        request - html page requested registration/login.html
+    """
     context = base(request)
     if request.method == 'GET':
         user_form = LoginUserForm()
@@ -134,9 +158,15 @@ def login(request):
 
     return render(request, "registration/login.html", context)
 
-# HTML page to allow the member to edit its profile in BioInfuse app
-# Add option to delete the account, to be in accordance with CNIL?
 def edit_profile(request, member):
+    """
+        Where BioInfuse member can change profile
+
+        request - html page requested edit_profile.html
+        member  - BioInfuse Member id
+
+        ToDo - Allow BioInfuse to change password and delete account
+    """
     context = base(request)
     get_member = Member.objects.get(user=member)
     get_user = User.objects.get(id=member)
@@ -167,8 +197,13 @@ def edit_profile(request, member):
     context['member_form'] = member_form
     return render(request, "edit_profile.html", context)
 
-# HTML page to subscribe the connected member to a new challenge
 def subscribe_challenge(request, member):
+    """
+        Where existing BioInfuse member can subscribe to a new challenge
+
+        request - html page requested subscribe_challenge.html
+        member  - BioInfuse Member id
+    """
     context = base(request)
     member = Member.objects.get(user=member)
     challenges = Challenge.objects.filter(is_open=True)
@@ -181,7 +216,6 @@ def subscribe_challenge(request, member):
         challenges = request.POST
         list_challenge = challenges.getlist("list_challenge")
         # from list_challenge, add user on each challenge
-        import random
         for c in list_challenge:
             challenge = Challenge.objects.get(id=c)
             # only subscribe member if AssociatedKey not exists for the selected
@@ -202,8 +236,12 @@ def subscribe_challenge(request, member):
     context['role'] = member.role
     return render(request, "subscribe_challenge.html", context)
 
-# list all members subscribed in BioInfuse app
 def list_members(request):
+    """
+        Show all BioInfuse members in adminstration panel
+
+        request - html page requested manage_members.html
+    """
     context = base(request)
     members = Member.objects.all()
     if request.user.id:
@@ -214,9 +252,14 @@ def list_members(request):
     context['role'] = role
     return render(request, "manage_members.html", context)
 
-# HTML page to edit member when logged as Administrator
-# Usefull to change user role and possibly help user when stuck
 def edit_member(request, member):
+    """
+        Where BioInfuse member (role 'A') can change BioInfuse member data,
+        like 'role'
+
+        request - html page requested edit_member.html
+        member  - BioInfuse Member id
+    """
     context = base(request)
     get_member = Member.objects.get(user=member)
     changed_member = get_member
@@ -259,7 +302,19 @@ def edit_member(request, member):
 # HTML page to submit a movie
 # Add a visual like a file uploading image?
 def submit_movie(request, member):
+    """
+        Where BioInfuse member (role 'C') send a movie.
+
+        request - html page requested submit_movie.html
+        member  - BioInfuse Member id
+    """
     def upload_movie(movie_id, file_name):
+        """
+            Use Dailymotion API to send a movie.
+
+            movie_id  - BioInfuse Movie id
+            file_name - file path to the submitted movie file, temporary
+        """
         d = dailymotion.Dailymotion()
         d.set_grant_type('password', api_key=API_KEY,
                          api_secret=API_SECRET, scope=['manage_videos'],
@@ -276,7 +331,8 @@ def submit_movie(request, member):
                  an embedding format! Need to retrieve the embed_url field from
                  Dailymotion
         """
-        q_movie.movie_url = 'http://www.dailymotion.com/video/' + str(movie['id'])
+        q_movie.movie_url = 'http://www.dailymotion.com/video/' + \
+                            str(movie['id'])
         q_movie.save()
 
     context = base(request)
@@ -316,6 +372,12 @@ def submit_movie(request, member):
 
 # HTML page to show, pages are created in Django admin
 def show_page(request, page):
+    """
+        Show page created by Django admin, like Rules
+
+        request - html page requested show_page.html
+        page    - BioInfuse Page id
+    """
     context = base(request)
     try:
         page = Page.objects.get(id=page)
@@ -327,6 +389,11 @@ def show_page(request, page):
 
 # HTML page to list all movies submitted in BioInfuse app
 def list_movies(request):
+    """
+        Show all movies on administration panel
+
+        request - html page requested manage_notes.html
+    """
     context = base(request)
     movies = Movie.objects.all()
     context['movies'] = movies
@@ -336,7 +403,8 @@ def list_movies(request):
         role = 'I'
     for i in range(0, len(movies)):
         if Vote.objects.filter(id_movie=movies[i].id):
-            evaluation = Vote.objects.get(id_movie=movies[i].id, user=request.user.id)
+            evaluation = Vote.objects.get(id_movie=movies[i].id, \
+                                          user=request.user.id)
             movies[i].note = int(evaluation.global_note)
             movies[i].note += int(evaluation.artistic_note)
             movies[i].note += int(evaluation.originality_note)
@@ -355,6 +423,12 @@ def list_movies(request):
 
 # HTML page for Jury when a movie need to be evaluated
 def add_notes(request, movie_id):
+    """
+        Where a BioInfuse Member (role 'J') can evaluate a BioInfuse Movie
+
+        request  - html page requested add_notes.html
+        movie_id - BioInfuse Movie id
+    """
     context = base(request)
     context['movie_id'] = movie_id
     movie = Movie.objects.get(id=movie_id)
