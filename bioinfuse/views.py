@@ -409,6 +409,7 @@ def edit_challenge(request, challenge):
             return HttpResponseRedirect(reverse('bioinfuse:manage_challenges'))
     context['changed_challenge'] = changed_challenge
     context['challenge_form'] = challenge_form
+    context['role'] = Member.objects.get(user=request.user.id).role
     return render(request, "edit_challenge.html", context)
 
 # HTML page to submit a movie
