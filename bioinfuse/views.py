@@ -84,6 +84,7 @@ def home(request):
     """
     return HttpResponseRedirect(reverse('bioinfuse:index'))
 
+
 def index(request):
     """
         Show BioInfuse home page
@@ -267,6 +268,50 @@ def list_members(request):
     context['members'] = members
     context['role'] = role
     return render(request, "manage_members.html", context)
+
+
+def add_member(request):
+    context = base(request)
+    try:
+        challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')[0]
+    except OperationalError:
+        challenge = []
+    if request.method == 'GET':
+        user_form = AddUserForm()
+        member_form = AddMemberForm()
+    else:
+        user_form = AddUserForm(request.POST)
+        member_form = AddMemberForm(request.POST)
+
+        if user_form.is_valid() and member_form.is_valid():
+            # register new user
+            user = user_form.save()
+            user.set_password(user.password)  # use set_password to hash enter password
+            user_member = user.id
+            user.save()
+            show_name = member_form.cleaned_data['show_name']
+            # register new member
+            member = member_form.save(commit=False)
+            member.user = user
+            member.save()
+            # generate associated key for new member
+            key = generate_key(50)
+            member_key = AssociatedKey.objects.create(candidate=member,
+                                                      challenge=challenge,
+                                                      associated_key=key)
+            member_key.save()
+            member = Member.objects.get(user=user_member)
+            member.associated_key = member_key.associated_key
+            member.save()
+            context['show_name'] = show_name
+
+    context['user_form'] = user_form
+    context['member_form'] = member_form
+    context['role'] = Member.objects.get(user=request.user.id).role
+
+    return render(request, "create_member.html", context)
+
+
 
 def edit_member(request, member):
     """

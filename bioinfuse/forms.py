@@ -57,6 +57,20 @@ class ManageMemberForm(forms.ModelForm):
         model = Member
         fields = ('show_name', 'role')
 
+class AddUserForm(forms.ModelForm):
+    password = forms.CharField(label="Mot de passe",
+                               widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name',
+                  'password', 'email',)
+
+
+class AddMemberForm(forms.ModelForm):
+    class Meta:
+        model = Member
+        fields = ('show_name', 'role')
 
 class SubmitMovieForm(forms.ModelForm):
     file_movie = forms.FileField(label="Votre vidéo")

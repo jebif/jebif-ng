@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Ajout d'un membre
+
+{% endblock %}
+
+{% block content %}
+
+<section id="form">
+    <article>
+	{% if user.is_authenticated and role == 'A' %}
+    <header>
+        <h1>Ajout d'un membre</h1>
+    </header>
+    <form action="{% url 'bioinfuse:add_member' %}" method="post">{% csrf_token %}
+        <fieldset>
+            {{ user_form.as_p }}
+            {{ member_form.as_p }}
+            <input type="submit" value="Mettre à jour">
+        </fieldset>
+    </form>
+    <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
+    redirigé à la page de gestion des membres.</p>
+    {% else %}
+        <p>
+        Vous n'êtes pas autorisé à ajouter un membre. <a href="{% url 'bioinfuse:index' %}">Retour à la page d'accueil</a>.
+        </p>
+	{% endif %}
+	</article>
+</section>
+
+{% endblock %}
