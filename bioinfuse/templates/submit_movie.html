@@ -16,7 +16,8 @@ Soumetre une vidéo
             <h1>Vidéo soumise avec succès !</h1>
         </header>
         <p>
-            Merci d'avoir soumis votre vidéo ! Elle sera examinée par notre jury dès la fermeture des soumissions.<br>
+            Merci d'avoir soumis votre vidéo ! Elle sera examinée par notre jury dès la fermeture des soumissions.<br />
+            Votre vidéo sera disponible sur Dailymotion à la fin de la période de soumission du concours.<br />
             Vous pouvez maintenant <a href="{% url 'bioinfuse:index' %}">revenir à la page d'accueil</a>.
         </p>
         {% else %}
@@ -30,10 +31,8 @@ Soumetre une vidéo
                 <input type="submit" value="Soumettre la vidéo">
             </fieldset>
         </form>
-        <p class="info">Une fois que vous aurez validé le formulaire, votre vidéo sera directement envoyée sur
-            notre page Dailymotion. Une fois fait, vous serez automatiquement redirigé à la page d'accueil.<br>
-        Par mesure de sécurité, merci d'attendre la fin de la soumission avant de changer de page ou de quitter
-        notre application.</p>
+        <p class="info">Une fois que vous aurez validé le formulaire, votre vidéo sera directement envoyée sur notre page Dailymotion. Une fois fait, vous serez automatiquement redirigé à la page d'accueil. La vidéo ne sera visible publiquement sur Dailymotion qu'après la fermeture des soumission.<br>
+        Par mesure de sécurité, merci d'attendre la fin de la soumission avant de changer de page ou de quitter notre application.</p>
         {% endif %}
         {% else %}
         <p>
