@@ -313,7 +313,7 @@ def add_member(request):
                 '%s/%s with email %s' % (HTTP_DOMAIN, reverse('password_reset'), user_form.cleaned_data['email'],),
                 'chopopope@crans.org',
                 [user_form.cleaned_data['email'],],
-                fail_silently=False,
+                fail_silently=True,
                 )
 
     context['user_form'] = user_form
