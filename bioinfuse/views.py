@@ -10,6 +10,8 @@ import dailymotion
 from bioinfuse.parameters import *
 import re
 from django.db.utils import OperationalError
+from django.core.mail import send_mail
+from jebif.settings import HTTP_DOMAIN
 
 def generate_key(length):
     """
@@ -306,10 +308,18 @@ def add_member(request):
             member.associated_key = member_key.associated_key
             member.save()
             context['show_name'] = show_name
+            send_mail(
+                'Renouvellement de mot de passe',
+                '%s/%s with email %s' % (HTTP_DOMAIN, reverse('password_reset'), user_form.cleaned_data['email'],),
+                'chopopope@crans.org',
+                [user_form.cleaned_data['email'],],
+                fail_silently=False,
+                )
 
     context['user_form'] = user_form
     context['member_form'] = member_form
     context['role'] = Member.objects.get(user=request.user.id).role
+
 
     return render(request, "create_member.html", context)
 
