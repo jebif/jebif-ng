@@ -9,6 +9,7 @@ import datetime
 import dailymotion
 from bioinfuse.parameters import *
 import re
+from django.db.utils import OperationalError
 
 def generate_key(length):
     """
@@ -29,12 +30,22 @@ def base(request):
 
         request - html page requested *.html
     """
-    total_member = Member.objects.count()
-    total_challenger = Member.objects.filter(role='C').count()
-    total_jury = Member.objects.filter(role='J').count()
-    total_admin = Member.objects.filter(role='A').count()
-    total_movie = Movie.objects.count()
-    pages = Page.objects.filter(published=True).order_by('title')
+    try:
+        total_member = Member.objects.count()
+        total_challenger = Member.objects.filter(role='C').count()
+        total_jury = Member.objects.filter(role='J').count()
+        total_admin = Member.objects.filter(role='A').count()
+        total_movie = Movie.objects.count()
+        pages = Page.objects.filter(published=True).order_by('title')
+        challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')
+    except OperationalError:
+        total_member = 0
+        total_challenger = 0
+        total_jury = 0
+        total_admin = 0
+        total_movie = 0
+        pages = None
+        challenge = []
     context = {
         'version': get_version(),
         'total_member': total_member,
@@ -47,7 +58,6 @@ def base(request):
     if request.user.id != None:
         member_id = request.user.id
         context['member'] = Member.objects.get(user=member_id)
-    challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')
     if len(challenge) > 0:
         challenge = challenge[0]
         context['challenge'] = challenge
@@ -91,7 +101,10 @@ def subscribe(request):
     """
     registered = False
     context = base(request)
-    challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')[0]
+    try:
+        challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')[0]
+    except OperationalError:
+        challenge = []
     if request.method == 'GET':
         user_form = NewUserForm()
         subs_form = SubscriptionForm()
@@ -206,7 +219,10 @@ def subscribe_challenge(request, member):
     """
     context = base(request)
     member = Member.objects.get(user=member)
-    challenges = Challenge.objects.filter(is_open=True)
+    try:
+        challenges = Challenge.objects.filter(is_open=True)
+    except OperationalError:
+        challenges = []
     if request.method == 'GET' and len(challenges) > 0:
         # context['challenges'] = challenges
         challenge_form = SubscribeChallengeForm()
@@ -336,9 +352,14 @@ def submit_movie(request, member):
         q_movie.save()
 
     context = base(request)
-    role = Member.objects.get(user=member).role
-    member = Member.objects.get(user=member)
-    challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')[0]
+    try:
+        role = Member.objects.get(user=member).role
+        member = Member.objects.get(user=member)
+        challenge = Challenge.objects.filter(is_open=True).order_by('stop_date')[0]
+    except OperationalError:
+        role = ""
+        member = None
+        challenge = []
     is_submit = False
     if request.method == 'GET':
         submit_movie_form = SubmitMovieForm({'submit_date': now()})

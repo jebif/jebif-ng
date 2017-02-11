@@ -2,7 +2,7 @@
 from django import forms
 from .models import *
 from django.contrib.auth.models import User
-
+from django.db.utils import OperationalError
 
 class NewUserForm(forms.ModelForm):
     password = forms.CharField(label="Mot de passe",
@@ -78,7 +78,10 @@ class VoteCommentForm(forms.ModelForm):
         fields = ('comment',)
 
 class SubscribeChallengeForm(forms.Form):
-    challenges = [(c.id, c.title) for c in Challenge.objects.filter(is_open=True)]
+    try:
+        challenges = [(c.id, c.title) for c in Challenge.objects.filter(is_open=True)]
+    except OperationalError:
+        challenges = []
 
     list_challenge = forms.MultipleChoiceField(choices=challenges, \
                                             widget=forms.CheckboxSelectMultiple(),
