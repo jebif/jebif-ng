@@ -25,6 +25,7 @@ Gestion des membres
         </thead>
         {% for member in members %}
         <tr>
+
             <td><a href="{% url 'bioinfuse:edit_member' member.user.id%}/">{{member.user}}</a></td>
             <td>{{member.show_name}}</td>
             <td>{{member.get_role_display}}</td>
