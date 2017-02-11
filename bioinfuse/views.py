@@ -277,11 +277,11 @@ def add_member(request):
     except OperationalError:
         challenge = []
     if request.method == 'GET':
-        user_form = AddMemberForm()
-        member_form = AddUserForm()
+        user_form = AddUserForm()
+        member_form = AddMemberForm()
     else:
-        user_form = AddMemberForm(request.POST)
-        member_form = AddUserForm(request.POST)
+        user_form = AddUserForm(request.POST)
+        member_form = AddMemberForm(request.POST)
 
         if user_form.is_valid() and member_form.is_valid():
             # register new user
