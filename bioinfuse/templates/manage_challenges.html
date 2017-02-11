@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Gestion des défis
+
+{% endblock %}
+
+{% block content %}
+
+<section id="manage">
+    <article>
+	{% if user.is_authenticated and role == 'A' %}
+    <header>
+        <h1>Liste des défis</h1>
+    </header>
+    <p>
+        Pour gérer un défi, cliquez sur le titre du défi dans le tableau suivant&nbsp;:
+        <table>
+        <thead>
+            <td>Titre</td>
+            <td>Date de début</td>
+            <td>Date de fin</td>
+        </thead>
+        {% for challenge in challenges %}
+        <tr>
+            <td><a href="{% url 'bioinfuse:edit_challenge' challenge.title %}/">{{challenge}}</a></td>
+            <td>{{challenge.start_date|date:"d M Y à H\hh"}}</td>
+            <td>{{challenge.stop_date|date:"d M Y à H\hh"}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Aucun défi enregistré pour l'instant.</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </p>
+    {% else %}
+        <p>
+            Vous n'êtes pas autorisé à gérer les défis. <a href="{% url 'bioinfuse:index' %}">Retour à la page d'accueil</a>.
+        </p>
+	{% endif %}
+	</article>
+</section>
+
+{% endblock %}

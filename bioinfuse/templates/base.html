@@ -35,6 +35,7 @@
                             <li><a href="{% url 'bioinfuse:manage_notes' %}">Voir les vidéos soumises</a></li>
                         {% elif member.role == 'A' %}
                             <li><a href="{% url 'bioinfuse:manage_members' %}">Gérer les membres</a></li>
+                            <li><a href="{% url 'bioinfuse:manage_challenges' %}">Gérer les défis</a></li>
                         {% else %}
                             <li>Oups ! Il semble que vous n'ayez pas de rôle attribué.
                                 Prévenez un administrateur afin qu'il vous assigne un rôle !</li>

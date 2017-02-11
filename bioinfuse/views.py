@@ -360,6 +360,57 @@ def edit_member(request, member):
     context['member_form'] = member_form
     return render(request, "edit_member.html", context)
 
+def list_challenges(request):
+    """
+        Show all BioInfuse challenges in adminstration panel
+
+        request - html page requested manage_challenges.html
+    """
+    context = base(request)
+    #member = Member.objects.get(user=member)
+    challenges = Challenge.objects.all()
+    #print(challenges)
+    if request.user.id:
+        role = Member.objects.get(user=request.user.id).role
+    else:
+        role = 'I'
+    context['challenges'] = challenges
+    context['role'] = role
+    return render(request, "manage_challenges.html", context)
+
+def edit_challenge(request, challenge):
+    """
+        Where BioInfuse member (role 'A') can change BioInfuse member data,
+        like 'role'
+
+        request - html page requested edit_challenge.html
+        member  - BioInfuse Member id
+    """
+    context = base(request)
+    print(challenge)
+    get_challenge = Challenge.objects.get(title=challenge)
+    changed_challenge = get_challenge
+    if request.method == 'GET':
+        challenge_form = ManageChallengeForm({'title': get_challenge.title,
+                                                'start_date': get_challenge.start_date,
+                                                'stop_date': get_challenge.stop_date})
+    else:
+        chalenge_form = ManageChallengeForm(request.POST)
+
+        if challenge_form.is_valid():
+            title = challenge_form.cleaned_data['title']
+            start_date = challenge_form.cleaned_data['start_date']
+            stop_date = challenge_form.cleaned_data['stop_date']
+            # update page
+            get_challenge.title = title
+            get_challenge.start_date = start_date
+            get_challenge.stop_date = stop_date
+            get_challenge.save()
+            return HttpResponseRedirect(reverse('bioinfuse:manage_challenges'))
+    context['changed_challenge'] = changed_challenge
+    context['challenge_form'] = challenge_form
+    return render(request, "edit_challenge.html", context)
+
 # HTML page to submit a movie
 # Add a visual like a file uploading image?
 def submit_movie(request, member):
