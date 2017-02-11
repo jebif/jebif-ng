@@ -28,7 +28,7 @@ concours, gestion des membres inscrits, rédaction d'information sur les concour
 Pour utiliser cette application dans votre projet, vous devrez modifier les fichiers suivants :
 
 * jebif/localsettings.py.dist : à copier dans jebif/localsettings.py et à modifier au niveau des paramètres attendus par Django (cf. Settings dans la documentation officielle pour plus de détails)
-* bioinfuse/parameters.py : à copier dans bioinfuse/parameters.py et à modifier au niveau des paramètres attendus par Dailymotion
+* bioinfuse/parameters.py.dist : à copier dans bioinfuse/parameters.py et à modifier au niveau des paramètres attendus par Dailymotion
   * pour les développeurs impliqués dans le projet, les identifiants seront fournis en privé
 
 # Django applications of JeBiF association
