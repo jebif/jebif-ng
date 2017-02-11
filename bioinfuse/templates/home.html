@@ -35,7 +35,7 @@
     
     	{% else %}
     
-    Vous êtes inscrit pour le concours {{challenge}}. Vous pouvez <a href="{% url 'bioinfuse:subscribe' %}">soumettre votre vidéo</a> avant le {{ challenge.stop_date|date:"d F Y" }}
+    Vous êtes inscrit pour le concours {{challenge}}. Vous pouvez <a href="{% url 'bioinfuse:submit_movie' user.id %}">soumettre votre vidéo</a> avant le {{ challenge.stop_date|date:"d F Y" }}
     à {{ challenge.stop_date|date:"H\hh" }}. </p>
     	{% endif %}
     {% endif %}
