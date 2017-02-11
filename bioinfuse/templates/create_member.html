@@ -2,7 +2,7 @@
 
 {% block title %}
 
-Modification du profil de {{ member.user }}
+Ajout d'un membre
 
 {% endblock %}
 
@@ -14,7 +14,7 @@ Modification du profil de {{ member.user }}
     <header>
         <h1>Ajout d'un membre</h1>
     </header>
-    <form action="{% url 'bioinfuse:add_member' add_member.user.id %}" method="post">{% csrf_token %}
+    <form action="{% url 'bioinfuse:add_member' %}" method="post">{% csrf_token %}
         <fieldset>
             {{ user_form.as_p }}
             {{ member_form.as_p }}
@@ -23,9 +23,9 @@ Modification du profil de {{ member.user }}
     </form>
     <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
     redirigé à la page de gestion des membres.</p>
-        {% else %}
+    {% else %}
         <p>
-            Vous n'êtes pas autorisé à gérer les membres. <a href="{% url 'index' %}">Retour à la page d'accueil</a>.
+        Vous n'êtes pas autorisé à ajouter un membre. <a href="{% url 'bioinfuse:index' %}">Retour à la page d'accueil</a>.
         </p>
 	{% endif %}
 	</article>
