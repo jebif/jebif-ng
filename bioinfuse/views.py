@@ -392,6 +392,7 @@ def edit_challenge(request, challenge):
     changed_challenge = get_challenge
     if request.method == 'GET':
         challenge_form = ManageChallengeForm({'title': get_challenge.title,
+                                                'is_open': get_challenge.is_open,
                                                 'start_date': get_challenge.start_date,
                                                 'stop_date': get_challenge.stop_date})
     else:
@@ -399,10 +400,12 @@ def edit_challenge(request, challenge):
 
         if challenge_form.is_valid():
             title = challenge_form.cleaned_data['title']
+            is_open = challenge_form.cleaned_data['is_open']
             start_date = challenge_form.cleaned_data['start_date']
             stop_date = challenge_form.cleaned_data['stop_date']
             # update page
             get_challenge.title = title
+            get_challenge.is_open = is_open
             get_challenge.start_date = start_date
             get_challenge.stop_date = stop_date
             get_challenge.save()

@@ -48,7 +48,7 @@ class EditProfileForm(forms.ModelForm):
 class EditChallengeForm(forms.ModelForm):
     class Meta:
         model = Challenge
-        fields = ('title', 'start_date', 'stop_date')
+        fields = ('title', 'is_open', 'start_date', 'stop_date')
 
 
 class ManageUserForm(forms.ModelForm):
@@ -65,7 +65,7 @@ class ManageMemberForm(forms.ModelForm):
 class ManageChallengeForm(forms.ModelForm):
     class Meta:
         model = Challenge
-        fields = ('title', 'start_date', 'stop_date')
+        fields = ('title', 'is_open', 'start_date', 'stop_date')
 
 class AddUserForm(forms.ModelForm):
     password = forms.CharField(label="Mot de passe",

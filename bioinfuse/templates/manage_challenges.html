@@ -19,12 +19,18 @@ Gestion des défis
         <table>
         <thead>
             <td>Titre</td>
+            <td>Status</td>
             <td>Date de début</td>
             <td>Date de fin</td>
         </thead>
         {% for challenge in challenges %}
         <tr>
             <td><a href="{% url 'bioinfuse:edit_challenge' challenge.title %}/">{{challenge}}</a></td>
+            {% if challenge.is_open == True %}
+                <td>Ouvert</td>
+            {% else %}
+                <td>Fermé</td>
+            {% endif %}
             <td>{{challenge.start_date|date:"d M Y à H\hh"}}</td>
             <td>{{challenge.stop_date|date:"d M Y à H\hh"}}</td>
         </tr>
