@@ -58,6 +58,8 @@ def base(request):
     if request.user.id != None:
         member_id = request.user.id
         context['member'] = Member.objects.get(user=member_id)
+        associated_keys = AssociatedKey.objects.all()
+        context['associated_keys'] = associated_keys
     if len(challenge) > 0:
         challenge = challenge[0]
         context['challenge'] = challenge

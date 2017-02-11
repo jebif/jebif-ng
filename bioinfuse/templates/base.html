@@ -27,7 +27,7 @@
                     <ul>
                         <li><a href="{% url 'bioinfuse:edit_profile' user.id %}">Modifier mon profil</a></li>
                         {% if member.role == 'C' %}
-                          <li><a href="{% url 'bioinfuse:subscribe_challenge' user.id %}">S'inscire à un défi</a></li>
+                          <li><a href="{% url 'bioinfuse:subscribe_challenge' user.id %}">S'inscrire à un concours</a></li>
                           {% if submit_ok %}
                             <li><a href="{% url 'bioinfuse:submit_movie' user.id %}">Soumettre une vidéo</a></li>
                           {% endif %}
@@ -35,6 +35,7 @@
                             <li><a href="{% url 'bioinfuse:manage_notes' %}">Voir les vidéos soumises</a></li>
                         {% elif member.role == 'A' %}
                             <li><a href="{% url 'bioinfuse:manage_members' %}">Gérer les membres</a></li>
+                            <li><a href="{% url 'bioinfuse:add_member'%}">Ajouter un membre</a></li>
                         {% else %}
                             <li>Oups ! Il semble que vous n'ayez pas de rôle attribué.
                                 Prévenez un administrateur afin qu'il vous assigne un rôle !</li>
