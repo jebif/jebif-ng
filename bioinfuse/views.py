@@ -396,8 +396,7 @@ def edit_challenge(request, challenge):
                                                 'start_date': get_challenge.start_date,
                                                 'stop_date': get_challenge.stop_date})
     else:
-        chalenge_form = ManageChallengeForm(request.POST)
-
+        challenge_form = ManageChallengeForm(request.POST)
         if challenge_form.is_valid():
             title = challenge_form.cleaned_data['title']
             is_open = challenge_form.cleaned_data['is_open']
