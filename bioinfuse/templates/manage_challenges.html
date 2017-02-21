@@ -25,7 +25,7 @@ Gestion des défis
         </thead>
         {% for challenge in challenges %}
         <tr>
-            <td><a href="{% url 'bioinfuse:edit_challenge' challenge.title %}/">{{challenge}}</a></td>
+            <td><a href="{% url 'bioinfuse:edit_challenge' challenge.id %}/">{{challenge}}</a></td>
             {% if challenge.is_open == True %}
                 <td>Ouvert</td>
             {% else %}

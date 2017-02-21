@@ -380,21 +380,24 @@ def list_challenges(request):
 
 def edit_challenge(request, challenge):
     """
-        Where BioInfuse member (role 'A') can change BioInfuse member data,
-        like 'role'
+        Where BioInfuse member (role 'A') can change BioInfuse challenge data,
+        like 'is_open'
 
         request - html page requested edit_challenge.html
-        member  - BioInfuse Member id
+        challenge  - BioInfuse Challenge id
     """
     context = base(request)
-    print(challenge)
-    get_challenge = Challenge.objects.get(title=challenge)
+    get_challenge = Challenge.objects.get(id=challenge)
     changed_challenge = get_challenge
     if request.method == 'GET':
         challenge_form = ManageChallengeForm({'title': get_challenge.title,
-                                                'is_open': get_challenge.is_open,
-                                                'start_date': get_challenge.start_date,
-                                                'stop_date': get_challenge.stop_date})
+                                              'is_open': get_challenge.is_open,
+                                              'start_date': get_challenge.start_date,
+                                              'stop_date': get_challenge.stop_date,
+                                              'subs_start_date': get_challenge.subs_start_date,
+                                              'subs_stop_date': get_challenge.subs_stop_date,
+                                              'subm_start_date': get_challenge.subm_start_date,
+                                              'subm_stop_date': get_challenge.subm_stop_date})
     else:
         challenge_form = ManageChallengeForm(request.POST)
         if challenge_form.is_valid():
@@ -402,11 +405,19 @@ def edit_challenge(request, challenge):
             is_open = challenge_form.cleaned_data['is_open']
             start_date = challenge_form.cleaned_data['start_date']
             stop_date = challenge_form.cleaned_data['stop_date']
+            subs_start_date = challenge_form.cleaned_data['subs_start_date']
+            subs_stop_date = challenge_form.cleaned_data['subs_stop_date']
+            subm_start_date = challenge_form.cleaned_data['subm_start_date']
+            subm_stop_date = challenge_form.cleaned_data['subm_stop_date']
             # update page
             get_challenge.title = title
             get_challenge.is_open = is_open
             get_challenge.start_date = start_date
             get_challenge.stop_date = stop_date
+            get_challenge.subs_start_date = subs_start_date
+            get_challenge.subs_stop_date = subs_stop_date
+            get_challenge.subm_start_date = subm_start_date
+            get_challenge.subm_stop_date = subm_start_date
             get_challenge.save()
             return HttpResponseRedirect(reverse('bioinfuse:manage_challenges'))
     context['changed_challenge'] = changed_challenge

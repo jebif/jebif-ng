@@ -2,7 +2,7 @@
 
 {% block title %}
 
-Modification des paramètres de {{ challenge }}
+Modification des paramètres de {{ changed_challenge.title }}
 
 {% endblock %}
 
@@ -12,9 +12,9 @@ Modification des paramètres de {{ challenge }}
     <article>
 	{% if user.is_authenticated and role == 'A' %}
     <header>
-        <h1>Modification des paramètres de {{ changed_challenge }}</h1>
+        <h1>Modification des paramètres de {{ changed_challenge.id }}</h1>
     </header>
-    <form action="{% url 'bioinfuse:edit_challenge' changed_challenge.title %}" method="post">{% csrf_token %}
+    <form action="{% url 'bioinfuse:edit_challenge' changed_challenge.id %}" method="post">{% csrf_token %}
         <fieldset>
             {{ challenge_form.as_p }}
             <input type="submit" value="Mettre à jour">
