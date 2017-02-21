@@ -4,47 +4,65 @@
 
 {% block content %}
 
-{% if challenge.is_open == True %}
-    {% if user.is_authenticated %}
-    <h1>Bienvenue sur BioInfuse <a href="{% url 'bioinfuse:edit_profile' user.id %}/">{{member.show_name}}</a></h1>
-    {% else %}
-    <h1>Bienvenue sur BioInfuse</h1>
-    {% endif %}
-    
-    <p>BioInfuse est un concours de création de vidéo scientifique sur la bioinformatique. Ce concours est organisé par l'<a href="https://jebif.fr">association des Jeunes Bioinformaticiens de France (RSG France - JeBiF)</a>.</p>
+<section id="page">
+	<article>
+	{% if challenge.is_open == True %}
+	    {% if user.is_authenticated %}
+			<h1>Bienvenue sur BioInfuse <a href="{% url 'bioinfuse:edit_profile' user.id %}/">{{member.show_name}}</a></h1>
+	    {% else %}
+		    <h1>Bienvenue sur BioInfuse</h1>
+	    {% endif %}
 	
+		<p>BioInfuse est un concours de création de vidéo scientifique sur la bioinformatique. Ce concours est organisé par 
+		l'<a href="https://jebif.fr">association des Jeunes Bioinformaticiens de France (RSG France - JeBiF)</a>.</p>
+		
+		
+		{% if not user.is_authenticated %}
+			<p>Le concours <strong>{{ challenge.title }}</strong> est ouvert du
+			{{ challenge.start_date|date:"d F Y" }}
+			à {{ challenge.start_date|date:"H\hh" }} jusqu'au
+		    {{ challenge.stop_date|date:"d F Y" }}
+			à {{ challenge.stop_date|date:"H\hh" }}.<br />
+	     
+		    Si vous souhaitez participer à cette édition, n'hésitez pas à vous 
+			<a href="{% url 'bioinfuse:subscribe' %}">inscrire</a> dès à présent ! 
+			Vous pourrez par la suite soumettre votre vidéo du 
+			{{ challenge.subm_start_date|date:"d F Y" }} à 
+			{{ challenge.subm_start_date|date:"H\hh" }} au 
+			{{ challenge.subm_stop_date|date:"d F Y" }} à 
+			{{ challenge.subm_stop_date|date:"H\hh" }}.</p>
+	    
+		{% else %}
+			{% if challenge.id not in associated_keys.challenge.id %}
+				<p>Le concours <strong>{{ challenge.title }}</strong> est ouvert du
+			    {{ challenge.start_date|date:"d F Y" }}
+			    à {{ challenge.start_date|date:"H\hh" }} jusqu'au
+			    {{ challenge.stop_date|date:"d F Y" }}
+				à {{ challenge.stop_date|date:"H\hh" }}.<br />
+	     
+			    Si vous souhaitez participer à cette édition, hésitez pas à vous 
+				<a href="{% url 'bioinfuse:subscribe' %}">inscrire</a> dès à présent ! 
+				Vous pourrez par la suite soumettre votre vidéo 
+				{{ challenge.subm_start_date|date:"d F Y" }} à 
+				{{ challenge.subm_start_date|date:"H\hh" }} au 
+				{{ challenge.subm_stop_date|date:"d F Y" }} à 
+				{{ challenge.subm_stop_date|date:"H\hh" }}.</p>
+	    
+		    {% else %}
+				<p>Vous êtes inscrit pour le concours {{challenge}}. Vous pouvez 
+				<a href="{% url 'bioinfuse:submit_movie' user.id %}">soumettre votre vidéo</a> 
+				avant le {{ challenge.stop_date|date:"d F Y" }}
+			    à {{ challenge.stop_date|date:"H\hh" }}. </p>
+			{% endif %}
+	    {% endif %}
 	
-    {% if not user.is_authenticated %}
-    Le concours <strong>{{ challenge.title }}</strong> est ouvert du
-    {{ challenge.start_date|date:"d F Y" }}
-    à {{ challenge.start_date|date:"H\hh" }} jusqu'au
-    {{ challenge.stop_date|date:"d F Y" }}
-    à {{ challenge.stop_date|date:"H\hh" }}.<br />
-     
-    Si vous souhaitez participer à cette édition, hésitez pas à vous <a href="{% url 'bioinfuse:subscribe' %}">inscrire</a> dès à présent ! Vous pourrez par la suite soumettre votre vidéo jus</p>
-    
-    {% else %}
-    	{% if challenge.id not in associated_keys.challenge.id %}
-    	    Le concours <strong>{{ challenge.title }}</strong> est ouvert du
-    {{ challenge.start_date|date:"d F Y" }}
-    à {{ challenge.start_date|date:"H\hh" }} jusqu'au
-    {{ challenge.stop_date|date:"d F Y" }}
-    à {{ challenge.stop_date|date:"H\hh" }}.<br />
-     
-    Si vous souhaitez participer à cette édition, hésitez pas à vous <a href="{% url 'bioinfuse:subscribe' %}">inscrire</a> dès à présent ! Vous pourrez par la suite soumettre votre vidéo jus</p>
-    
-    	{% else %}
-    
-    Vous êtes inscrit pour le concours {{challenge}}. Vous pouvez <a href="{% url 'bioinfuse:submit_movie' user.id %}">soumettre votre vidéo</a> avant le {{ challenge.stop_date|date:"d F Y" }}
-    à {{ challenge.stop_date|date:"H\hh" }}. </p>
-    	{% endif %}
-    {% endif %}
-{% else %}
-<section>
-<h1>Bienvenue sur BioInfuse</h1>
-<p>BioInfuse est un concours de création de vidéo scientifique sur la bioinformatique. Ce concours est organisé par l'<a href="https://jebif.fr">association des Jeunes Bioinformaticiens de France (RSG France - JeBiF)</a>.</p>
-<p>Aucun concours n'est ouvert pour l'instant. Merci pour l'intérêt que vous portez à BioInfuse ! Et à très vite pour la prochaine édition.</p>
-</p>L'équipe de JeBiF.</p>
+		{% else %}
+			<h1>Bienvenue sur BioInfuse</h1>
+			<p>BioInfuse est un concours de création de vidéo scientifique sur la bioinformatique. 
+			Ce concours est organisé par l'<a href="https://jebif.fr">association des Jeunes Bioinformaticiens de France (RSG France - JeBiF)</a>.</p>
+			<p>Aucun concours n'est ouvert pour l'instant. Merci pour l'intérêt que vous portez à BioInfuse ! Et à très vite pour la prochaine édition.</p>
+			<p>L'équipe de JeBiF.</p>
+		{% endif %}
+	</article>
 </section>
-{% endif %}
 {% endblock %}
