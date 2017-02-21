@@ -372,6 +372,71 @@ def edit_member(request, member):
     context['member_form'] = member_form
     return render(request, "edit_member.html", context)
 
+def list_challenges(request):
+    """
+        Show all BioInfuse challenges in adminstration panel
+
+        request - html page requested manage_challenges.html
+    """
+    context = base(request)
+    #member = Member.objects.get(user=member)
+    challenges = Challenge.objects.all()
+    #print(challenges)
+    if request.user.id:
+        role = Member.objects.get(user=request.user.id).role
+    else:
+        role = 'I'
+    context['challenges'] = challenges
+    context['role'] = role
+    return render(request, "manage_challenges.html", context)
+
+def edit_challenge(request, challenge):
+    """
+        Where BioInfuse member (role 'A') can change BioInfuse challenge data,
+        like 'is_open'
+
+        request - html page requested edit_challenge.html
+        challenge  - BioInfuse Challenge id
+    """
+    context = base(request)
+    get_challenge = Challenge.objects.get(id=challenge)
+    changed_challenge = get_challenge
+    if request.method == 'GET':
+        challenge_form = ManageChallengeForm({'title': get_challenge.title,
+                                              'is_open': get_challenge.is_open,
+                                              'start_date': get_challenge.start_date,
+                                              'stop_date': get_challenge.stop_date,
+                                              'subs_start_date': get_challenge.subs_start_date,
+                                              'subs_stop_date': get_challenge.subs_stop_date,
+                                              'subm_start_date': get_challenge.subm_start_date,
+                                              'subm_stop_date': get_challenge.subm_stop_date})
+    else:
+        challenge_form = ManageChallengeForm(request.POST)
+        if challenge_form.is_valid():
+            title = challenge_form.cleaned_data['title']
+            is_open = challenge_form.cleaned_data['is_open']
+            start_date = challenge_form.cleaned_data['start_date']
+            stop_date = challenge_form.cleaned_data['stop_date']
+            subs_start_date = challenge_form.cleaned_data['subs_start_date']
+            subs_stop_date = challenge_form.cleaned_data['subs_stop_date']
+            subm_start_date = challenge_form.cleaned_data['subm_start_date']
+            subm_stop_date = challenge_form.cleaned_data['subm_stop_date']
+            # update page
+            get_challenge.title = title
+            get_challenge.is_open = is_open
+            get_challenge.start_date = start_date
+            get_challenge.stop_date = stop_date
+            get_challenge.subs_start_date = subs_start_date
+            get_challenge.subs_stop_date = subs_stop_date
+            get_challenge.subm_start_date = subm_start_date
+            get_challenge.subm_stop_date = subm_start_date
+            get_challenge.save()
+            return HttpResponseRedirect(reverse('bioinfuse:manage_challenges'))
+    context['changed_challenge'] = changed_challenge
+    context['challenge_form'] = challenge_form
+    context['role'] = Member.objects.get(user=request.user.id).role
+    return render(request, "edit_challenge.html", context)
+
 # HTML page to submit a movie
 # Add a visual like a file uploading image?
 def submit_movie(request, member):

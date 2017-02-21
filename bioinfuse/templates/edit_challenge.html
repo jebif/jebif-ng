@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Modification des paramètres de {{ changed_challenge.title }}
+
+{% endblock %}
+
+{% block content %}
+
+<section id="form">
+    <article>
+	{% if user.is_authenticated and role == 'A' %}
+    <header>
+        <h1>Modification des paramètres de {{ changed_challenge.id }}</h1>
+    </header>
+    <form action="{% url 'bioinfuse:edit_challenge' changed_challenge.id %}" method="post">{% csrf_token %}
+        <fieldset>
+            {{ challenge_form.as_p }}
+            <input type="submit" value="Mettre à jour">
+        </fieldset>
+    </form>
+    <p class="info">Une fois que vous aurez validé le formulaire, vous serez automatiquement
+    redirigé à la page de gestion des défis.</p>
+        {% else %}
+        <p>
+            Vous n'êtes pas autorisé à gérer les défis. <a href="{% url 'index' %}">Retour à la page d'accueil</a>.
+        </p>
+	{% endif %}
+	</article>
+</section>
+
+{% endblock %}
