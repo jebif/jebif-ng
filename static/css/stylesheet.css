@@ -1,9 +1,12 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,100);
+
 body {
     margin: 0 auto;
-    background: #c5c5c5;
+    background: #FFFFFF;
+    font-family: 'Lato', sans-serif;
 }
 p.info {
-  background: lightblue;
+  background: #2B3F5E;
   color: blue;
   border: 1px solid blue;
   margin: 1em;
@@ -19,7 +22,7 @@ p.error {
 Main header style
 ****************/
 header#mainheader {
-    width: 90%;
+    height:220px;
     margin: 0 auto;
     text-align: center;
     margin-top: 4px;
@@ -33,17 +36,20 @@ header#mainheader a img {
 Main menu style
 **************/
 nav#mainmenu {
-    background: #68A7DC;
-    color: #0B071E;
-    height: 1.4em;
-    font-size: 1.2em;
+    background: #2B3F5E;
+    color: #FFFFFF;
+    min-height: 1.6em;
+    font-size: 1.1em;
+    margin-bottom:10px;
 }
+
 nav#mainmenu a {
     color: inherit;
     text-decoration: none;
+    line-height: 1.6em;
 }
 nav#mainmenu a:hover {
-    color: #1F4683;
+    background-color: #467ABA;
 }
 nav#mainmenu ul {
     margin: 0 auto;
@@ -51,7 +57,7 @@ nav#mainmenu ul {
     list-style: outside none none;
     width: 80%;
     font-size: 1.0em;
-    line-height: 1.3em;
+    //line-height: 1.3em;
 }
 
 nav#mainmenu ul li {
@@ -81,10 +87,9 @@ section#main {
 }
 section#main h1 {
     font-size: 1.3em;
-    background: #3D6186;
-    color: white;
-    padding: 2px 4px;
-    border-radius: 10px 10px 0 0;
+    color: #2B3F5E;
+    padding: 5px;
+    margin:0;
 }
 
 /*********
@@ -95,20 +100,19 @@ div#container aside{
     width: 20%;
 }
 div#container aside div {
-    background: #ddd;
-    border-radius: 10px;
+    //background: #F6F6F6;
+    //border-radius: 10px;
     margin-bottom: 0.5em;
+    //border:2px solid #CCC;
 }
 div#container aside h2 {
     font-size: 1.2em;
     margin: 2px 0;
-    color: white;
-    background:  #3D6186;
+    color: #A80532;
     padding: 2px 4px;
-    border-radius: 5px 5px 0 0;
 }
 div#container aside div#connection ul {
-    list-style: none;
+    //list-style: none;
     margin: 0;
     padding: 2px 4px;
 }
@@ -122,12 +126,16 @@ div#container aside p {
     padding: 2px 4px;
 }
 
+div#container aside a{
+	color:#2B3F5E;
+}
+
 /****************
 Manage user style
 ****************/
 section#manage article {
-    background: #ddd;
-    border-radius: 10px;
+    background: #F6F6F6;
+    border:2px solid #CCC;
 }
 section#manage article p {
     padding: 2px 4px;
@@ -154,13 +162,14 @@ section#manage table td {
 Page style
 ****************/
 section#page article {
-    background: #ddd;
-    border-radius: 10px;
+    background: #F6F6F6;
     margin: 0 auto;
     padding: 0;
+    border:2px solid #CCC;
 }
 section#page article header h1 {
     margin: 0 auto;
+    margin-top:0;
 }
 section#page article p {
     padding: 2px 4px;
@@ -187,11 +196,10 @@ section#page table td {
 Form style
 *********/
 section#form article {
-    background: #ddd;
     margin-bottom: 1em;
-    border-radius: 10px;
 }
 section#form article header h1 {
+	color: #A80532;
     margin: 0 auto;
 }
 section#form article p {
@@ -202,8 +210,7 @@ section#form form, {
     margin-bottom: 1em;
 }
 section#form form fieldset {
-    border: 1px solid #3D6186;
-    border-radius: 15px;
+    border: none;
 }
 section#form label {
     font-weight: bold;
@@ -212,17 +219,34 @@ section#form label {
 section#form span.helptext {
     font-size: 0.7em;
 }
+section#form input[type='text'],section#form input[type='password'],section#form input[type='email']{
+	padding:10px;
+	border:2px solid #CCC;
+	border-radius:5px;
+	width:100%;
+	outline: none;
+	font-size:1em;
+}
+
+section#form input:focus{
+	border:2px solid #A80532;
+}
+
 section#form input[type='submit'] {
     background: #4F647C;
-    border: 1px solid #1F4683;
-    color: white;
-    font-size: 1.1em;
+	padding:10px;
+	border:none;
+	border-radius:5px;
+	color:#FFF;
+	font-size:1em;
 }
 section#form input[type='reset'] {
-    background: #FF6D6D;
-    border: 1px solid #F00;
-    color: white;
-    font-size: 1.1em;
+    background: #A80532;
+	padding:10px;
+	border:none;
+	border-radius:5px;
+	color:#FFF;
+	font-size:1em;
 }
 
 section#form ul#id_list_challenge {
@@ -234,11 +258,11 @@ section#form ul#id_list_challenge {
 Links style
 **********/
 div#container a {
-    color: #1F4683;
+    color: #A80532;
     text-decoration: none;
 }
 div#container a:hover {
-    color: #0B071E;
+   	text-decoration:underline;
 }
 
 /***********
@@ -246,7 +270,7 @@ Footer style
 ***********/
 footer#mainfooter {
     clear: both;
-    background: #254061;
+    //background: #254061;
     margin-top: 2em;
     position: relative;
     bottom: 0;
@@ -254,13 +278,13 @@ footer#mainfooter {
 footer#mainfooter p {
     width: 90%;
     margin: 0 auto;
-    color: white;
+    color: #AAA;
     text-align: center;
 }
 footer#mainfooter a {
-    color: #5BB5E6;
+    color: #2B3F5E;
     text-decoration: none;
 }
 footer#mainfooter a:hover {
-    color: cyan;
+    text-decoration:underline;
 }
